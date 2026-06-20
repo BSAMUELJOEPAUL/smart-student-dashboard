@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Student Dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+        <div class="logo"><i class="fas fa-graduation-cap"></i><span>SmartDash</span></div>
+        <button type="button" class="close-btn" title="Close sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="mini-profile">
+        <div class="mini-avatar" id="miniAvatar">S</div>
+        <div>
+            <div class="mini-name" id="miniName">Student</div>
+            <div class="mini-roll" id="miniRoll">Roll No</div>
+        </div>
+    </div>
+    <nav>
+        <a class="nav-item active" onclick="show('overview',this)"><i class="fas fa-home"></i> Dashboard</a>
+        <a class="nav-item" onclick="show('profile',this)"><i class="fas fa-user-circle"></i> My Profile</a>
+        <a class="nav-item" onclick="show('marks',this)"><i class="fas fa-chart-bar"></i> Marks & Grades</a>
+        <a class="nav-item" onclick="show('attendance',this)"><i class="fas fa-clipboard-check"></i> Attendance</a>
+        <a class="nav-item" onclick="show('exams',this)"><i class="fas fa-file-alt"></i> Exam Schedule</a>
+        <a class="nav-item" onclick="show('assignments',this)"><i class="fas fa-tasks"></i> Assignments</a>
+    </nav>
+    <div class="sidebar-foot">
+        <button type="button" class="theme-btn" title="Toggle theme" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i> <span id="themeLabel">Dark Mode</span></button>
+        <button type="button" class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+</aside>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main" id="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <button type="button" class="menu-btn" title="Toggle sidebar" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <span class="page-title" id="pageTitle">Dashboard</span>
+        </div>
+        <div class="topbar-right">
+            <div class="clock"><i class="fas fa-clock"></i> <span id="clock">00:00:00</span></div>
+            <div class="avatar" id="topAvatar">S</div>
+        </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section id="sec-overview" class="section active">
+        <div class="welcome-box">
+            <div>
+                <h2>Hello, <span id="welcomeName">Student</span>! 👋</h2>
+                <p>Here's your academic summary</p>
+            </div>
+            <div class="welcome-stats">
+                <div class="w-stat purple"><i class="fas fa-chart-bar"></i><div><strong id="wAvgMarks">--</strong><small>Avg Marks</small></div></div>
+                <div class="w-stat teal"><i class="fas fa-clipboard-check"></i><div><strong id="wAttendance">--</strong><small>Attendance</small></div></div>
+                <div class="w-stat orange"><i class="fas fa-tasks"></i><div><strong id="wPending">--</strong><small>Pending</small></div></div>
+            </div>
+        </div>
+
+        <div class="cards-row">
+            <div class="stat-card purple" onclick="show('marks',null)">
+                <i class="fas fa-chart-bar"></i>
+                <div class="stat-val" id="ov-marks">--</div>
+                <div class="stat-lbl">Average Marks</div>
+            </div>
+            <div class="stat-card teal" onclick="show('attendance',null)">
+                <i class="fas fa-clipboard-check"></i>
+                <div class="stat-val" id="ov-att">--</div>
+                <div class="stat-lbl">Attendance %</div>
+            </div>
+            <div class="stat-card orange" onclick="show('exams',null)">
+                <i class="fas fa-file-alt"></i>
+                <div class="stat-val" id="ov-exams">--</div>
+                <div class="stat-lbl">Upcoming Exams</div>
+            </div>
+            <div class="stat-card pink" onclick="show('assignments',null)">
+                <i class="fas fa-tasks"></i>
+                <div class="stat-val" id="ov-tasks">--</div>
+                <div class="stat-lbl">Assignments Due</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-head"><h3><i class="fas fa-chart-line"></i> Marks Overview</h3></div>
+                <canvas id="marksOverviewChart" height="220"></canvas>
+            </div>
+            <div class="card">
+                <div class="card-head"><h3><i class="fas fa-circle-notch"></i> Attendance</h3></div>
+                <canvas id="attOverviewChart" height="220"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="sec-profile" class="section">
+        <div class="section-title"><h2><i class="fas fa-user-circle"></i> My Profile</h2></div>
+        <div class="profile-layout">
+            <div class="card profile-card">
+                <div class="p-avatar" id="pAvatar">S</div>
+                <div class="p-name" id="pName">--</div>
+                <div class="p-roll" id="pRoll">--</div>
+                <div class="p-dept" id="pDept">--</div>
+                <span class="badge green">Active Student</span>
+            </div>
+            <div class="card flex-1">
+                <div class="card-head"><h3><i class="fas fa-edit"></i> Profile Details</h3></div>
+                <div class="profile-details" id="profileDetails"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARKS -->
+    <section id="sec-marks" class="section">
+        <div class="section-title"><h2><i class="fas fa-chart-bar"></i> Marks & Grades</h2></div>
+        <div class="card">
+            <div class="card-head"><h3><i class="fas fa-table"></i> Subject-wise Marks</h3></div>
+            <div class="table-wrap">
+                <table class="data-table" id="marksTable">
+                    <thead><tr><th>Subject</th><th>Internal</th><th>External</th><th>Total</th><th>Grade</th><th>Status</th></tr></thead>
+                    <tbody id="marksBody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="grid-2 mt-20">
+            <div class="card">
+                <div class="card-head"><h3><i class="fas fa-chart-bar"></i> Marks Chart</h3></div>
+                <canvas id="marksChart" height="220"></canvas>
+            </div>
+            <div class="card">
+                <div class="card-head"><h3><i class="fas fa-medal"></i> Grade Summary</h3></div>
+                <div id="gradeSummary" class="grade-summary"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section id="sec-attendance" class="section">
+        <div class="section-title"><h2><i class="fas fa-clipboard-check"></i> Attendance</h2></div>
+        <div class="card">
+            <div class="card-head"><h3><i class="fas fa-calculator"></i> Attendance Calculator</h3></div>
+            <div class="calc-grid">
+                <div class="calc-group">
+                    <label>Total Classes</label>
+                    <input type="number" id="calcTotal" placeholder="e.g. 60" min="0">
+                </div>
+                <div class="calc-group">
+                    <label>Classes Attended</label>
+                    <input type="number" id="calcAttended" placeholder="e.g. 50" min="0">
+                </div>
+                <div class="calc-group">
+                    <label>Result</label>
+                    <div class="calc-result" id="calcResult">Enter values & calculate</div>
+                </div>
+                <button type="button" class="btn-calc" onclick="calcAttendance()"><i class="fas fa-calculator"></i> Calculate</button>
+            </div>
+        </div>
+        <div class="card mt-20">
+            <div class="card-head"><h3><i class="fas fa-table"></i> Subject-wise Attendance</h3></div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Subject</th><th>Total</th><th>Present</th><th>Absent</th><th>%</th><th>Status</th></tr></thead>
+                    <tbody id="attBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXAMS -->
+    <section id="sec-exams" class="section">
+        <div class="section-title"><h2><i class="fas fa-file-alt"></i> Exam Schedule</h2></div>
+        <div class="card">
+            <div class="card-head"><h3><i class="fas fa-calendar-alt"></i> Upcoming Exams</h3></div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Subject</th><th>Date</th><th>Time</th><th>Venue</th><th>Days Left</th></tr></thead>
+                    <tbody id="examBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASSIGNMENTS -->
+    <section id="sec-assignments" class="section">
+        <div class="section-title">
+            <h2><i class="fas fa-tasks"></i> Assignments</h2>
+            <button type="button" class="btn-add" onclick="openTaskModal()"><i class="fas fa-plus"></i> Add</button>
+        </div>
+        <div id="assignList" class="assign-list"></div>
+
+        <div class="modal" id="taskModal">
+            <div class="modal-box">
+                <div class="modal-head">
+                    <h3>Add Assignment</h3>
+                    <button type="button" title="Close modal" onclick="closeTaskModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="form-group">
+                    <label for="tTitle">Title</label>
+                    <input type="text" id="tTitle" placeholder="Assignment title">
+                </div>
+                <div class="form-group">
+                    <label for="tSubject">Subject</label>
+                    <input type="text" id="tSubject" placeholder="Subject name">
+                </div>
+                <div class="form-group">
+                    <label for="tDue">Due Date</label>
+                    <input type="date" id="tDue" title="Due date">
+                </div>
+                <button type="button" class="btn-primary-sm" onclick="addTask()"><i class="fas fa-plus"></i> Add Assignment</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

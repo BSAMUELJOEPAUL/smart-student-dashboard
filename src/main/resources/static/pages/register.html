@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Register</title>
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<div class="auth-container">
+    <div class="auth-left">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+        <h1>Join Smart<br>Dashboard</h1>
+        <p>Start tracking your academic progress today</p>
+        <div class="features">
+            <div class="feat"><i class="fas fa-star"></i> Personalized Dashboard</div>
+            <div class="feat"><i class="fas fa-shield-alt"></i> Secure & Private</div>
+            <div class="feat"><i class="fas fa-mobile-alt"></i> Mobile Friendly</div>
+            <div class="feat"><i class="fas fa-clock"></i> Real-time Updates</div>
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Create Account</h2>
+                <p>Fill in your details to get started</p>
+            </div>
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullName" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-id-badge"></i> Roll Number</label>
+                        <input type="text" id="rollNumber" placeholder="e.g. CS2021001" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-building"></i> Department</label>
+                        <select id="department" required>
+                            <option value="">Select</option>
+                            <option>Computer Science</option>
+                            <option>Information Technology</option>
+                            <option>Electronics</option>
+                            <option>Mechanical</option>
+                            <option>Civil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-book"></i> Semester</label>
+                        <select id="semester" required>
+                            <option value="">Select</option>
+                            <option>Semester 1</option><option>Semester 2</option>
+                            <option>Semester 3</option><option>Semester 4</option>
+                            <option>Semester 5</option><option>Semester 6</option>
+                            <option>Semester 7</option><option>Semester 8</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="password" placeholder="Min 6 chars" required>
+                            <i class="fas fa-eye toggle-pw" onclick="togglePw('password',this)"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Confirm</label>
+                        <div class="input-wrap">
+                            <input type="password" id="confirmPassword" placeholder="Repeat password" required>
+                            <i class="fas fa-eye toggle-pw" onclick="togglePw('confirmPassword',this)"></i>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" id="registerBtn">
+                    <span>Create Account</span><i class="fas fa-user-plus"></i>
+                </button>
+                <div id="registerMsg" class="msg"></div>
+            </form>
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/auth.js"></script>
+</body>
+</html>
