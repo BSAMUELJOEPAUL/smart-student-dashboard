@@ -13,6 +13,7 @@ com\smartdashboard\SmartDashboardApplication.class
 com\smartdashboard\controller\StudentController.class
 com\smartdashboard\service\DashboardService.class
 com\smartdashboard\model\Assignment.class
+com\smartdashboard\controller\HomeController.class
 com\smartdashboard\controller\AuthController.class
 com\smartdashboard\repository\ExamRepository.class
 com\smartdashboard\repository\AssignmentRepository.class
