@@ -7733,3 +7733,5 @@ Hibernate: select s1_0.id,s1_0.created_at,s1_0.department,s1_0.email,s1_0.full_n
 2026-06-20T20:38:19.761+05:30 DEBUG 27264 --- [nio-8080-exec-3] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [static/], ServletContext [/]]
 2026-06-20T20:38:19.765+05:30 DEBUG 27264 --- [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
 2026-06-20T20:38:19.766+05:30 DEBUG 27264 --- [nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+
+d:\Smart Student Dashboard System 1>
