@@ -1,33 +1,28 @@
-# ── Stage 1: Build ──────────────────────────────────────────────────────────
+# Stage 1 - Build
 FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
-# Copy dependency manifests first for better layer caching
+RUN apk add --no-cache maven
+
 COPY pom.xml .
-COPY .mvn/ .mvn/
-# Download dependencies (cached unless pom.xml changes)
-RUN apk add --no-cache maven && \
-    mvn dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
-# Copy source and build, skipping tests for a faster production image
-COPY src/ src/
-RUN mvn package -DskipTests -B
+COPY src ./src
 
-# ── Stage 2: Runtime ─────────────────────────────────────────────────────────
+RUN mvn clean package -DskipTests
+
+# Stage 2 - Run
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Create a non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Copy only the fat JAR from the build stage
-COPY --from=builder /app/target/smart-student-dashboard-1.0.0.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 USER appuser
 
-# Render injects PORT env var; fall back to 8080 locally
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "-Dserver.port=${PORT:-8080}", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
